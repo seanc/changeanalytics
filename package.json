@@ -1,0 +1,31 @@
+{
+  "name": "changeanalytics",
+  "description": "Provide analytics on nickname changes for Discord guilds",
+  "version": "0.1.0",
+  "homepage": "https://github.com/seanc/changeanalytics",
+  "author": "Sean Wilson (https://imsean.me)",
+  "repository": "seanc/changeanalytics",
+  "bugs": {
+    "url": "https://github.com/seanc/changeanalytics/issues"
+  },
+  "license": "MIT",
+  "files": [
+    "LICENSE"
+  ],
+  "engines": {
+    "node": ">=0.10.0"
+  },
+  "scripts": {
+    "test": "mocha"
+  },
+  "keywords": [
+    "generategenerator"
+  ],
+  "dependencies": {
+    "discord.js": "^11.0.0",
+    "rc": "^1.1.6",
+    "require-glob": "^3.2.0",
+    "text-table": "^0.2.0",
+    "thinky": "^2.3.8"
+  }
+}

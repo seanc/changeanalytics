@@ -1,0 +1,18 @@
+2017-01-23T00:06:36.813091226 0.200185s notice: Recursively removing directory /home/sean/projects/changeanalytics/rethinkdb_data/tmp
+2017-01-23T00:06:36.844301049 0.231394s notice: Initializing directory /home/sean/projects/changeanalytics/rethinkdb_data
+2017-01-23T00:06:36.844436604 0.231529s info: Creating a default database for your convenience. (This is because you ran 'rethinkdb' without 'create', 'serve', or '--join', and the directory '/home/sean/projects/changeanalytics/rethinkdb_data' did not already exist or is empty.)
+2017-01-23T00:06:36.844495799 0.231588s notice: Running rethinkdb 2.3.5~0xenial (GCC 5.3.1)...
+2017-01-23T00:06:36.850089482 0.237186s notice: Running on Linux 4.4.0-21-generic x86_64
+2017-01-23T00:06:36.850184495 0.237277s notice: Loading data from directory /home/sean/projects/changeanalytics/rethinkdb_data
+2017-01-23T00:06:37.211627600 0.598721s info: Automatically using cache size of 1248 MB
+2017-01-23T00:06:37.212682094 0.599775s notice: Listening for intracluster connections on port 29015
+2017-01-23T00:06:37.214856009 0.601950s notice: Listening for client driver connections on port 28015
+2017-01-23T00:06:37.215216568 0.602309s notice: Listening for administrative HTTP connections on port 8080
+2017-01-23T00:06:37.215224620 0.602317s notice: Listening on cluster addresses: 127.0.0.1, 127.0.1.1, ::1
+2017-01-23T00:06:37.215233133 0.602326s notice: Listening on driver addresses: 127.0.0.1, 127.0.1.1, ::1
+2017-01-23T00:06:37.215238161 0.602330s notice: Listening on http addresses: 127.0.0.1, 127.0.1.1, ::1
+2017-01-23T00:06:37.215246182 0.602339s notice: To fully expose RethinkDB on the network, bind to all addresses by running rethinkdb with the `--bind all` command line option.
+2017-01-23T00:06:37.215255180 0.602348s notice: Server ready, "lorien_71x" 77de94e5-fa30-4e3e-8fae-2fc9f3b3eb88
+2017-01-23T00:06:41.769111007 5.156204s info: Table ac0c3f48-0cc2-4218-b320-508a3cfb5a1a: Starting a new Raft election for term 1.
+2017-01-23T00:06:41.770394882 5.157488s info: Table ac0c3f48-0cc2-4218-b320-508a3cfb5a1a: Added replica on this server.
+2017-01-23T00:06:41.839264993 5.226358s info: Table ac0c3f48-0cc2-4218-b320-508a3cfb5a1a: This server is Raft leader for term 1. Latest log index is 0.
