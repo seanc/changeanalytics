@@ -1,54 +1,77 @@
-const Change = require('../../models/change')
+// const Change = require('../../models/change')
 const textTable = require('text-table')
+const r = require('../../lib/database')
+const Promise = require('bluebird')
+const Duration = require('duration')
 
 function stats(bot, config) {
   return function run(message, args) {
     if (!message.guild) return
-    Change.filter(row => row('guild').eq(message.guild.id)).then(changes => {
-      if (!changes.length) return message.reply('No analytics have been collected for this guild yet.')
-      message.channel.sendEmbed({
-        title: `Change analytics for ${message.guild.name}`,
-        fields: [
-          {
-            name: 'Last Hour',
-            value: changes.filter(change => {
-              return (new Date().getTime() - change.createdAt.getTime()) <= 3600000
-            }).length,
-            inline: true
-          },
-          {
-            name: 'Last Day',
-            value: changes.filter(change => {
-              return (new Date().getTime() - change.createdAt.getTime()) <= 86400000
-            }).length,
-            inline: true
-          },
-          {
-            name: 'Total',
-            value: changes.length,
-            inline: true
-          },
-          {
-            name: 'Top changes',
-            value: ((changes) => {
-              const mappedChanges = changes.reduce((map, change) => {
-                change = change.username
-                map[change] = (map[change] || 0) + 1
-                return map
-              }, {})
-              const sortedChanges = Object.keys(mappedChanges).sort((a, b) => {
-                return mappedChanges[b] - mappedChanges[a]
-              }).slice(0, 10)
-              const topTen = sortedChanges.map(change => {
-                return [`[${change}]`, changes.filter(c => c.username === change).length]
-              })
-              const table = textTable(topTen, { hsep: ' : ' })
-              return '```css\n' + table + '\n```'
-            })(changes)
+
+    const start = new Date()
+
+    message.reply('Retrieving Data...').then(message => {
+      const total = r.table('change')
+        .filter({guild: message.guild.id})
+
+      const top = total.group('username', { multi: true })
+        .count()
+        .ungroup()
+        .orderBy(r.desc('reduction'))
+        .limit(10)
+        .run()
+
+      const lastHour = total.filter(row => {
+        return row('createdAt').gt(r.now().sub(3600))
+      }).count().run()
+
+      const lastDay = total.filter(row => {
+        return row('createdAt').gt(r.now().sub(86400))
+      }).count().run()
+
+      Promise.all([lastHour, lastDay, total, top]).then(changes => {
+        message.delete()
+        const now = new Date()
+        const duration = new Duration(start, now)
+        const [hour, day, totals, tops] = changes
+        if (!totals.length) return message.channel.sendMessage('No analytics have been collected for this guild yet.')
+        message.channel.sendEmbed({
+          title: `Username change analytics for ${message.guild.name}`,
+          fields: [
+            {
+              name: 'Last Hour',
+              value: hour,
+              inline: true
+            },
+            {
+              name: 'Last Day',
+              value: day,
+              inline: true
+            },
+            {
+              name: 'Total',
+              value: totals.length,
+              inline: true
+            },
+            {
+              name: 'Top users',
+              value: ((changes) => {
+                const topTen = changes.map(change => {
+                  return [`[${change.group}]`, change.reduction]
+                })
+                console.log(topTen)
+                const table = textTable(topTen, { hsep: ' : ' })
+                return '```css\n' + table + '\n```'
+              })(tops)
+            }
+          ],
+          footer: {
+            text: duration.toString('Took %M minute(s) %S second(s) %Lsms')
           }
-        ]
-      })
+        })
+      }).catch(console.log)
     })
+
   }
 }
 

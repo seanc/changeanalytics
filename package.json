@@ -22,10 +22,12 @@
     "generategenerator"
   ],
   "dependencies": {
+    "bluebird": "^3.4.7",
     "discord.js": "^11.0.0",
+    "duration": "^0.2.0",
     "rc": "^1.1.6",
     "require-glob": "^3.2.0",
-    "text-table": "^0.2.0",
-    "thinky": "^2.3.8"
+    "rethinkdbdash": "^2.3.28",
+    "text-table": "^0.2.0"
   }
 }

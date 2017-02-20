@@ -1,4 +1,5 @@
-const Change = require('../../models/change')
+// const Change = require('../../models/change')
+const r = require('../../lib/database')
 
 function change(bot, config) {
   bot.on('guildMemberUpdate', (oldUser, newUser) => {
@@ -6,14 +7,15 @@ function change(bot, config) {
     if (oldUser.nickname === newUser.nickname) return
     if (oldUser.bot || newUser.bot) return
 
-    Change.save({
+    r.table('change').insert({
       user: newUser.id,
       guild: newUser.guild.id,
       nickname: newUser.nickname,
       username: newUser.user.username,
-      from: oldUser.user.username
-    }).then(change => {
-      console.log(`User ${change.username} changed nickname from ${change.from} to ${change.nickname}`)
+      from: oldUser.user.username,
+      createdAt: r.now()
+    }).run().then(change => {
+      console.log(`User ${newUser.user.username} changed nickname from ${oldUser.nickname} to ${newUser.nickname}`)
     })
   })
 }
